@@ -6,6 +6,17 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const db = require('../db')
 
+// persistent Sequelize Session Store
+// This configures and creates db store
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const dbStore = new SequelizeStore({ db: db });
+
+dbStore.sync()
+  .then(() => {
+    console.log('dbStore synced')
+  })
+  .catch(console.error.bind(console))
+
 //epxress Variables
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +30,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //session middleware
 app.use(session({
-  secret: 'a wildly insecure secret',
+  secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
+  store: dbStore,
   resave: false,
   saveUninitialized: false
 }));
