@@ -1,3 +1,4 @@
+/*-------- Dependency Import ------------*/
 const path = require('path');
 const express = require('express');
 const volleyball = require('volleyball')
@@ -7,13 +8,15 @@ const session = require('express-session');
 const passport = require('passport');
 const db = require('../db')
 
-// persistent Sequelize Session Store
+/*-------- Persistent Sequelize Session Store ------------*/
 // This configures and creates db store
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const dbStore = new SequelizeStore({ db: db });
 
-//Initialize and configure Passport
+/*-------- Initialize and configure Passport ------------*/
 app.use(passport.initialize());
+//must be used d/t using persistent sessions
+//this must come before express.session
 app.use(passport.session());
 
 dbStore.sync()
