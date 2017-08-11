@@ -4,12 +4,17 @@ const volleyball = require('volleyball')
 const routes = require('./routes.js')
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const passport = require('passport');
 const db = require('../db')
 
 // persistent Sequelize Session Store
 // This configures and creates db store
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const dbStore = new SequelizeStore({ db: db });
+
+//Initialize and configure Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 dbStore.sync()
   .then(() => {
