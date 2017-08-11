@@ -1,10 +1,13 @@
 module.exports = {
-  entry: './client/index.js',
+  entry: './client/index.jsx',
   output: {
-    // path: __dirname,
+    path: __dirname,
     filename: './client/public/bundle.js'
   },
   devtool: 'source-map',
+  resolve: {
+    extensions: ['.js', '.jsx', '.json', '*']
+  },
   module: {
     rules: [
       {
