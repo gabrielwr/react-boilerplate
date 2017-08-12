@@ -2,7 +2,7 @@ const router = require( 'express' ).Router()
 const User = require( '../db/User' )
 
 
-router.use( '/', ( req, res, next ) => {
+router.post( '/', ( req, res, next ) => {
   User.findByEmail( req.params.email )
   .then( user => {
     if( !user ) {
@@ -19,5 +19,7 @@ router.use( '/', ( req, res, next ) => {
   })
   .catch(next)
 })
+
+
 
 
