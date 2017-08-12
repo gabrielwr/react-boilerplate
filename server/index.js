@@ -13,19 +13,36 @@ const db = require('../db')
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const dbStore = new SequelizeStore({ db: db });
 
+/*-------- sync DB session store ------------*/
+dbStore.sync()
+.then(() => {
+  console.log('dbStore synced')
+})
+.catch(console.error.bind(console))
+
 /*-------- Initialize and configure Passport ------------*/
 app.use(passport.initialize());
 //must be used d/t using persistent sessions
 //this must come before express.session
 app.use(passport.session());
 
-dbStore.sync()
-  .then(() => {
-    console.log('dbStore synced')
-  })
-  .catch(console.error.bind(console))
+/*-------- Serialize User ------------*/
+passport.serializeUser((user, done) => {
+  try {
+    done(null, user.id);
+  } catch (err) {
+    done(err);
+  }
+});
 
-//epxress Variables
+/*-------- Deserialize User ------------*/
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then(user => done(null, user))
+    .catch(done);
+});
+
+//express Variables
 const app = express();
 const PORT = process.env.PORT || 3000;
 
