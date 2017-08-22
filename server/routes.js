@@ -3,10 +3,14 @@ const router = require( 'express' ).Router();
 /*-------- Router Imports ------------*/
 const login = require( './login' )
 const signup = require( './signup' )
+const logout = require( './logout' )
+const getMe = require( './getMe' )
 
 
-router.use( 'login', login  )
-router.use( 'signup', signup  )
+router.use( 'login', login )
+router.use( 'signup', signup )
+router.use( 'logout', logout )
+router.use( 'getMe', getMe )
 
 //404 error
 router.use( function ( req, res, next ) {
