@@ -5,7 +5,14 @@ const _ = require('lodash');
 
 const db = require('./db');
 
-const User = db.define('user', {
+const setSaltAndPassword = user => {
+  if (user.changed('password')) {
+    user.salt = user.Model.generateSalt();
+    user.password = user.Model.encryptPassword(user.password, user.salt);
+  }
+};
+
+module.exports = db.define('user', {
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -27,7 +34,7 @@ const User = db.define('user', {
       return _.omit(this.toJSON(), ['password', 'salt']);
     },
     correctPassword: function() {
-      return this.Model.encryptPassword(candidatePassword, this.getDataValue(salt)) === this.password;
+      return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
     }
   },
   classMethods: {
@@ -42,10 +49,3 @@ const User = db.define('user', {
     }
   }
 });
-
-function setSaltAndPassword (user) {
-  // we need to salt and hash again when the user enters their password for the first time
-  // and do it again whenever they change it
-}
-
-module.exports = User;
