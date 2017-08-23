@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 
+import auth from './auth.jsx'
+
 const rootReducer = combineReducers({
-  calc: require('./calc.jsx').default,
-  auth: require('./auth.jsx').default
+  auth
 })
 
 export default rootReducer;
