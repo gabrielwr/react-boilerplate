@@ -20,6 +20,9 @@ dbStore.sync()
 })
 .catch( console.error.bind( console ) )
 
+/*-------- if in development, use local secrets for OAuth2 ------------*/
+if (process.env.NODE_ENV === 'development') require('../localSecrets');
+
 /*-------- Initialize and configure Passport ------------*/
 app.use(passport.initialize());
 //must be used d/t using persistent sessions
@@ -77,7 +80,6 @@ db.sync()
 .catch(() => {
   throw new Error( 'db could not be synced' )
 })
-
 
 //Error handling middleware
 app.use( ( err, req, res, next ) =>  {
