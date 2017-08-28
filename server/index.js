@@ -2,19 +2,22 @@
 const path = require( 'path' );
 const express = require( 'express' );
 const volleyball = require( 'volleyball' )
-const auth = require( './auth' )
-const api = require( './api' )
 const bodyParser = require( 'body-parser' );
 const session = require( 'express-session' );
 const passport = require( 'passport' );
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+/*-------- if in development, use local secrets for OAuth2 ------------*/
+console.log('made it here')
+console.log(process.env.NODE_ENV)
+if ( process.env.NODE_ENV === 'development' ) {
+  console.log('made it here, adding env variables')
+  require('../localSecrets');
+}
+
 const db = require( '../db' )
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-//Express Variables
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 /*-------- Persistent Sequelize Session Store ------------*/
 // This configures and creates db store
 const SequelizeStore = require( 'connect-session-sequelize' )( session.Store );
@@ -27,13 +30,8 @@ dbStore.sync()
 })
 .catch( console.error.bind( console ) )
 
-/*-------- if in development, use local secrets for OAuth2 ------------*/
-console.log('made it here')
-console.log(process.env.NODE_ENV)
-if ( process.env.NODE_ENV === 'development' ) {
-  console.log('made it here, adding env variables')
-  require('../localSecrets');
-}
+
+
 
 /*-------- Serialize User ------------*/
 passport.serializeUser( ( user, done ) => {
@@ -51,12 +49,8 @@ passport.deserializeUser( ( id, done ) => {
     .catch( done );
 });
 
-<<<<<<< HEAD
 // logging middleware:
 app.use( volleyball )
-=======
-
->>>>>>> b879b663981b4d3a000b9efa5474e002fc98c240
 
 //static serving middleware
 app.use( express.static( path.join( __dirname, '../client/public' ) ) )
@@ -79,9 +73,9 @@ app.use( session({
   saveUninitialized: false
 }));
 
-//routes:
-app.use( '/auth', auth )
-app.use( '/api', api )
+//routes
+app.use( '/auth', require( './auth' ) )
+app.use( '/api', require( './api' ) )
 
 //Error handling:
 app.use( function ( req, res, next ) {
