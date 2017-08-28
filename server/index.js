@@ -11,6 +11,10 @@ const db = require( '../db' )
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//Express Variables
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 /*-------- Persistent Sequelize Session Store ------------*/
 // This configures and creates db store
 const SequelizeStore = require( 'connect-session-sequelize' )( session.Store );
@@ -47,8 +51,12 @@ passport.deserializeUser( ( id, done ) => {
     .catch( done );
 });
 
+<<<<<<< HEAD
 // logging middleware:
 app.use( volleyball )
+=======
+
+>>>>>>> b879b663981b4d3a000b9efa5474e002fc98c240
 
 //static serving middleware
 app.use( express.static( path.join( __dirname, '../client/public' ) ) )
