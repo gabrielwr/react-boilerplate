@@ -20,6 +20,8 @@ router.post( '/', ( req, res, next ) => {
   .catch(next)
 })
 
+module.exports = router
+
 
 
 

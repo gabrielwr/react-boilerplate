@@ -3,7 +3,7 @@ const Sequelize = require( 'sequelize' )
 const crypto = require('crypto');
 const _ = require('lodash');
 
-const db = require('./db');
+const db = require('./');
 
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
