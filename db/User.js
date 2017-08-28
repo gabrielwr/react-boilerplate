@@ -28,15 +28,11 @@ module.exports = db.define('user', {
     type: Sequelize.STRING
   }
 }, {
-  hooks: {
-    beforeCreate: setSaltAndPassword,
-    beforeUpdate: setSaltAndPassword
-  },
   instanceMethods: {
     sanitize: function() {
       return _.omit(this.toJSON(), ['password', 'salt']);
     },
-    correctPassword: function() {
+    correctPassword: function( candidatePassword ) {
       return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
     }
   },
@@ -50,5 +46,9 @@ module.exports = db.define('user', {
       hash.update(salt);
       return hash.digest('hex');
     }
+  },
+  hooks: {
+    beforeCreate: setSaltAndPassword,
+    beforeUpdate: setSaltAndPassword
   }
 });

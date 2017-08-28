@@ -91,10 +91,12 @@ db.sync()
     })
   })
   .catch(() => {
-    throw new Error( 'db could not be synced' )
+    throw new Error( 'oh no! db could not be synced' )
   })
 
 //note to self --> what is this for?
 app.get( '*', ( req, res, next ) => {
   res.sendFile( path.join( __dirname, '../client/public/index.html' ) );
 });
+
+module.exports = app;
