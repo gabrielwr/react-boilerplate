@@ -9,8 +9,6 @@ const googleConfig = {
   callbackURL: process.env.GOOGLE_CALLBACK
 };
 
-console.log('google config!', googleConfig)
-
 const strategy = new GoogleStrategy( googleConfig, ( token, refreshToken, profile, done ) => {
   const googleId = profile.id;
   const name = profile.displayName;

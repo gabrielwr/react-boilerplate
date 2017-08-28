@@ -5,21 +5,17 @@ const volleyball = require( 'volleyball' )
 const bodyParser = require( 'body-parser' );
 const session = require( 'express-session' );
 const passport = require( 'passport' );
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 /*-------- if in development, use local secrets for OAuth2 ------------*/
-console.log('made it here')
-console.log(process.env.NODE_ENV)
 if ( process.env.NODE_ENV === 'development' ) {
-  console.log('made it here, adding env variables')
   require('../localSecrets');
 }
 
-const db = require( '../db' )
 /*-------- Persistent Sequelize Session Store ------------*/
 // This configures and creates db store
+const db = require( '../db' )
 const SequelizeStore = require( 'connect-session-sequelize' )( session.Store );
 const dbStore = new SequelizeStore({ db });
 
@@ -29,9 +25,6 @@ dbStore.sync()
   console.log( 'dbStore synced' )
 })
 .catch( console.error.bind( console ) )
-
-
-
 
 /*-------- Serialize User ------------*/
 passport.serializeUser( ( user, done ) => {
