@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 /*-------- if in development, use local secrets for OAuth2 ------------*/
-if ( process.env.NODE_ENV === 'development' ) {
+if ( process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing' ) {
   require('../localSecrets');
 }
 
@@ -52,12 +52,6 @@ app.use( express.static( path.join( __dirname, '../client/public' ) ) )
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: true } ) );
 
-/*-------- Initialize and configure Passport ------------*/
-app.use( passport.initialize() );
-//must be used d/t using persistent sessions
-//this must come before express.session
-app.use( passport.session() );
-
 //session middleware
 app.use( session({
   secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
@@ -65,6 +59,12 @@ app.use( session({
   resave: false,
   saveUninitialized: false
 }));
+
+/*-------- Initialize and configure Passport ------------*/
+app.use( passport.initialize() );
+//must be used d/t using persistent sessions
+//this must come after express.session
+app.use( passport.session() );
 
 //routes
 app.use( '/auth', require( './auth' ) )
@@ -91,10 +91,12 @@ db.sync()
     })
   })
   .catch(() => {
-    throw new Error( 'db could not be synced' )
+    throw new Error( 'oh no! db could not be synced' )
   })
 
 //note to self --> what is this for?
 app.get( '*', ( req, res, next ) => {
   res.sendFile( path.join( __dirname, '../client/public/index.html' ) );
 });
+
+module.exports = app;
