@@ -62,6 +62,7 @@ app.use( session({
 
 /*-------- Initialize and configure Passport ------------*/
 app.use( passport.initialize() );
+
 //must be used d/t using persistent sessions
 //this must come after express.session
 app.use( passport.session() );
@@ -94,7 +95,7 @@ db.sync()
     throw new Error( 'oh no! db could not be synced' )
   })
 
-//note to self --> what is this for?
+//send idex.html file to front end on all get requests
 app.get( '*', ( req, res, next ) => {
   res.sendFile( path.join( __dirname, '../client/public/index.html' ) );
 });
