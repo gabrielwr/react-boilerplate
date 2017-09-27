@@ -6,7 +6,7 @@ import { render } from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from './store.jsx';
 import Root from './components/Root'
-import Calculator from './components/Calculator'
+import HomePage from './components/HomePage'
 import About from './components/About'
 import NotFound  from './components/NotFound'
 
@@ -16,9 +16,9 @@ render(
   <Provider store={ store }>
     <Router history={ browserHistory } >
       <Route path="/" component={ Root }>
-        <Route path="/calculator" component={ Calculator } />
+        <Route path="/calculator" component={ HomePage } />
         <Route path="/about" component={ About } />
-        <IndexRoute component={ Calculator } />
+        <IndexRoute component={ HomePage } />
       </Route>
       <Route path='*' component={ NotFound } />
     </Router>
