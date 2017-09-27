@@ -5,8 +5,7 @@ const Sequelize = require('sequelize');
 const db = require('./');
 
 function setSaltAndPassword( user ) {
-  if (user.changed('password')) {
-    console.log('user is:', user)
+  if ( user.changed( 'password' ) ) {
     user.salt = User.generateSalt();
     user.password = User.encryptPassword(user.password, user.salt);
   }
