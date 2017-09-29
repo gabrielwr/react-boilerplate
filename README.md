@@ -12,7 +12,7 @@ A quick, lightweight, starting point for full stack JavaScript applications usin
 
 ## Install
 
-To install and locally run boilermaker, clone or download the project to your machine and run the following commands:
+To install and locally run react-boilerplate, clone or download the project to your machine and run the following commands:
 
 Install all project dependencies:
 ```bash
