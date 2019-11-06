@@ -46,7 +46,7 @@
     "redux": "^3.7.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "sequelize": "^4.2.1",
+    "sequelize": "^5.15.1",
     "sinon": "^3.2.1",
     "volleyball": "^1.4.1"
   }
